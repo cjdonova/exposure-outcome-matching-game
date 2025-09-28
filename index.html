@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exposure ↔ Outcome Matching (CHIS Prep)</title>
+  <title>Exposure ↔ Outcome Matching</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
@@ -119,17 +119,16 @@
 </head>
 <body>
   <div class="matchwrap">
-    <h2><strong>Exposure ↔ Outcome Matching (CHIS Prep)</strong></h2>
+    <h2><strong>Exposure ↔ Outcome Matching</strong></h2>
     <p>Select the <em>Exposure</em> that best matches each <strong>Outcome</strong>. When you’re done, click "Check Answers" and open the “Answer Key” to self-check.</p>
     <table class="matchtbl" role="table" aria-label="Exposure Outcome Matching">
       <thead>
         <tr>
-          <th scope="col">Outcome</th>
-          <th scope="col">Choose Exposure</th>
+          <th scope="col">Outcome (what is measured)</th>
+          <th scope="col">Choose Exposure (grouping/independent variable)</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Each tr has a data-answer attribute for correct answer -->
         <tr class="rowcard" data-answer="Gender">
           <td class="outcome">Current smoking status</td>
           <td>
@@ -142,7 +141,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -161,7 +160,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -180,7 +179,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -188,9 +187,9 @@
           </td>
         </tr>
         <tr class="rowcard" data-answer="Education level">
-          <td class="outcome">Obesity rates</td>
+          <td class="outcome">Body mass index (BMI) category</td>
           <td>
-            <select class="sel" aria-label="Exposure for Obesity rates">
+            <select class="sel" aria-label="Exposure for BMI category">
               <option value="">— Select exposure —</option>
               <option>Gender</option>
               <option>Age group</option>
@@ -199,7 +198,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -207,9 +206,9 @@
           </td>
         </tr>
         <tr class="rowcard" data-answer="Insurance status">
-          <td class="outcome">Use of preventive care</td>
+          <td class="outcome">Use of preventive care (e.g., annual checkup)</td>
           <td>
-            <select class="sel" aria-label="Exposure for Use of preventive care">
+            <select class="sel" aria-label="Exposure for preventive care use">
               <option value="">— Select exposure —</option>
               <option>Gender</option>
               <option>Age group</option>
@@ -218,7 +217,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -237,7 +236,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -256,14 +255,14 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
             <span class="feedback"></span>
           </td>
         </tr>
-        <tr class="rowcard" data-answer="Household income">
+        <tr class="rowcard" data-answer="Household size">
           <td class="outcome">Food insecurity</td>
           <td>
             <select class="sel" aria-label="Exposure for Food insecurity">
@@ -275,7 +274,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -294,7 +293,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -313,7 +312,7 @@
               <option>Insurance status</option>
               <option>Race/ethnicity</option>
               <option>Geographic region</option>
-              <option>Household income</option>
+              <option>Household size</option>
               <option>Marital status</option>
               <option>Disability status</option>
             </select>
@@ -323,7 +322,7 @@
       </tbody>
     </table>
     <button class="checkbtn" onclick="checkAnswers()">Check Answers</button>
-    <p class="tip">Tip: In CHIS, the <em>exposure</em> is the grouping variable (Compare Topic). The <em>outcome</em> is the measure you’re comparing (Topic).</p>
+    <p class="tip"><strong>Tip:</strong> The <em>exposure</em> is the grouping/independent variable you compare across (e.g., age group). The <em>outcome</em> is the measure/result (e.g., vaccination rate). Matching does not imply causation.</p>
     <details style="margin-top:10px;">
       <summary style="font-weight:700; cursor:pointer;">Answer Key (click to expand)</summary>
       <div class="keybox">
@@ -331,16 +330,20 @@
           <li>Current smoking status → <strong>Gender</strong></li>
           <li>Rate of flu vaccination → <strong>Age group</strong></li>
           <li>Prevalence of diabetes → <strong>Income level</strong></li>
-          <li>Obesity rates → <strong>Education level</strong></li>
+          <li>BMI category → <strong>Education level</strong></li>
           <li>Use of preventive care → <strong>Insurance status</strong></li>
           <li>Asthma diagnosis → <strong>Race/ethnicity</strong></li>
           <li>Access to mental health services → <strong>Geographic region</strong></li>
-          <li>Food insecurity → <strong>Household income</strong></li>
+          <li>Food insecurity → <strong>Household income/size</strong> (use “Household size” here)</li>
           <li>Self-reported depression → <strong>Marital status</strong></li>
           <li>Difficulty accessing healthcare → <strong>Disability status</strong></li>
         </ul>
       </div>
     </details>
+    <div class="keybox" style="margin-top:12px;">
+      <strong>Make your own:</strong> Write one statistical query using your chosen pair.<br/>
+      <em>Template:</em> Among [population] in [place] in [year], what is the [percentage/mean] of [outcome], by [exposure]?
+    </div>
   </div>
   <script>
     function checkAnswers() {
@@ -362,7 +365,6 @@
         }
       });
     }
-    // Optional: instant feedback on dropdown change
     document.querySelectorAll('.sel').forEach(function(sel) {
       sel.addEventListener('change', function() {
         var row = sel.closest('.rowcard');
