@@ -14,7 +14,7 @@
       font-size: 16px;
     }
     .container {
-      max-width: 850px;
+      max-width: 950px;
       margin: 32px auto;
       background: rgba(255,255,255,0.97);
       border-radius: 18px;
@@ -48,19 +48,19 @@
       margin: 16px auto 16px auto;
       font-size: 15.5px;
       color: #29527c;
-      max-width: 650px;
+      max-width: 700px;
     }
     #game-board {
       display: grid;
-      grid-template-columns: repeat(5, 130px);
-      grid-gap: 22px;
+      grid-template-columns: repeat(5, 170px);
+      grid-gap: 20px;
       justify-content: center;
       margin: 28px auto 0 auto;
-      max-width: 730px;
+      max-width: 900px;
     }
     .card {
-      width: 120px;
-      height: 85px;
+      width: 160px;
+      height: 90px;
       background: #e9eff7;
       border-radius: 14px;
       box-shadow: 0 2px 14px rgba(60,105,150,0.09);
@@ -155,15 +155,19 @@
       background: #1c3256;
       box-shadow: 0 2px 14px rgba(60,105,150,0.13);
     }
-    @media (max-width: 850px){
+    @media (max-width: 1000px){
       .container { padding: 12px 2vw 18px 2vw; }
-      #game-board { grid-template-columns: repeat(2, 130px); grid-gap: 18px; }
+      #game-board { grid-template-columns: repeat(3, 170px); grid-gap: 18px; }
+    }
+    @media (max-width: 700px){
+      #game-board { grid-template-columns: repeat(2, 170px); }
     }
     @media (max-width: 480px){
       .container { padding: 6px 0 16px 0; }
       h2 { font-size: 1.3rem; }
       .definitions, .instructions { font-size: 14px; padding: 8px 8px; }
-      #game-board { grid-template-columns: repeat(1, 130px); grid-gap: 14px; }
+      #game-board { grid-template-columns: repeat(1, 170px); grid-gap: 14px; }
+      .card { width: 96vw; max-width: 380px;}
     }
   </style>
 </head>
@@ -171,8 +175,8 @@
   <div class="container">
     <h2>Exposure & Outcome Matching Game</h2>
     <div class="definitions">
-      <strong>Exposure:</strong> In public health research, an exposure is a factor or characteristic that might influence health. Examples: age, access to healthy food, behaviors, or environment.<br><br>
-      <strong>Outcome:</strong> An outcome is what is measured to see if there is a difference between groups. Examples: rates of disease, health behaviors, or quality of sleep.
+      <strong>Exposure:</strong> In public health research, an exposure is a factor or characteristic that might influence health or behavior. Examples: air quality, access to safe water, insurance coverage, or your environment.<br><br>
+      <strong>Outcome:</strong> An outcome is what is measured to see if there is a difference when we compare groups or conditions. Examples: minutes of exercise, sleep quality, health care use, or stress level.
     </div>
     <div class="instructions">
       <strong>Instructions:</strong> Click two cards to reveal them. Match an <span style="color:#2a8a47;font-weight:600;">Exposure</span> with its correct <span style="color:#29527c;font-weight:600;">Outcome</span>. If the pair is correct, they stay revealed. Try to find all matches!
@@ -182,18 +186,22 @@
     <button onclick="restartGame()" class="restart-btn">Restart Game</button>
   </div>
   <script>
-    // Inclusive, non-stereotypical pairs: Exposure ↔ Outcome
+    // Your custom pairs: Exposure ↔ Outcome
     const pairs = [
-      {exposure: "Age group", outcome: "Rate of flu vaccination"},
-      {exposure: "Physical activity level", outcome: "Obesity rate"},
-      {exposure: "Health insurance status", outcome: "Frequency of annual checkups"},
-      {exposure: "Access to fresh food", outcome: "Prevalence of healthy eating habits"},
-      {exposure: "Time spent outdoors", outcome: "Vitamin D levels"},
-      {exposure: "Participation in health education", outcome: "Knowledge of nutrition labels"},
-      {exposure: "Residential area (urban/suburban/rural)", outcome: "Access to healthcare services"},
-      {exposure: "Screen time", outcome: "Sleep quality"},
-      {exposure: "Smoking status", outcome: "Risk of lung disease"},
-      {exposure: "Water source (tap/bottled)", outcome: "Incidence of dental cavities"}
+      {exposure: "Air quality", outcome: "Outdoor exercise minutes"},
+      {exposure: "Safe tap-water", outcome: "Bottled-water purchases"},
+      {exposure: "Night-time noise", outcome: "Sleep quality"},
+      {exposure: "Sidewalks on street", outcome: "Walk to local destinations"},
+      {exposure: "Farmers’ market nearby", outcome: "Fresh-produce purchases"},
+      {exposure: "Available grocery delivery", outcome: "Weekly grocery trips"},
+      {exposure: "Calories depicted on menu", outcome: "Choose healthier food options"},
+      {exposure: "Has health insurance", outcome: "Accessing routine health appointments"},
+      {exposure: "Low visit copay", outcome: "Missed appointment rate"},
+      {exposure: "Prescription coverage", outcome: "Medication adherence"},
+      {exposure: "Commute time ≥ 45 minutes", outcome: "Perceived stress"},
+      {exposure: "Cell phone notifications silenced after 9 pm", outcome: "Evening stress rating"},
+      {exposure: "Quiet space at home", outcome: "Sleep hours"},
+      {exposure: "Weekend days off guaranteed", outcome: "Stress rating on Monday"}
     ];
 
     let cards = [];
@@ -203,7 +211,6 @@
     let matchesFound = 0;
 
     function createCards() {
-      // Each pair generates two cards: one Exposure, one Outcome
       let cardObjs = [];
       pairs.forEach((pair, idx) => {
         cardObjs.push({
@@ -219,7 +226,6 @@
           matchId: 'E' + idx,
         });
       });
-      // Shuffle
       for (let i = cardObjs.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [cardObjs[i], cardObjs[j]] = [cardObjs[j], cardObjs[i]];
@@ -266,7 +272,6 @@
 
     function checkForMatch() {
       if (!firstCard || !secondCard) return;
-      // Match if one's matchId is the other's id
       if (firstCard.data.matchId === secondCard.data.id) {
         firstCard.div.classList.add('matched');
         secondCard.div.classList.add('matched');
@@ -306,7 +311,6 @@
       setStatus("Find all matching Exposure ↔ Outcome pairs!");
     }
 
-    // Start game
     restartGame();
   </script>
 </body>
