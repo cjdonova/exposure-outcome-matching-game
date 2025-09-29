@@ -2,103 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exposure ↔ Outcome Matching Game (Public Health)</title>
+  <title>Exposure & Outcome Card Matching Game</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       background: #f5f8fa;
       margin: 0;
-      padding: 20px;
-      font-size: 15px;
+      padding: 24px;
       color: #224f6d;
-    }
-    .matchwrap {
-      background: #f7fbff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 18px;
-      max-width: 700px;
-      margin: auto;
+      font-size: 16px;
     }
     h2 {
       color: #224f6d;
-      margin: 0 0 .4em 0;
+      margin-bottom: .3em;
+      text-align: center;
     }
-    .matchtbl {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
-      margin-bottom: 12px;
+    .instructions {
+      text-align: center;
+      margin-bottom: 16px;
     }
-    .matchtbl th, .matchtbl td {
-      padding: 10px 12px;
-      vertical-align: middle;
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(5, 120px);
+      grid-gap: 18px;
+      justify-content: center;
+      margin: 24px auto;
+      max-width: 680px;
     }
-    .matchtbl th {
-      font-size: 12pt;
-      color: #6b7280;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      background: #eef2f7;
-      border-radius: 8px 8px 0 0;
-    }
-    .rowcard {
-      background: #fff;
-      border: 1px solid #e5e7eb;
+    .card {
+      width: 110px;
+      height: 80px;
+      background: #e5e7eb;
       border-radius: 12px;
-      transition: box-shadow 0.2s;
-    }
-    .rowcard.correct {
-      box-shadow: 0 0 0 2px #3ac183;
-      background: #eafaf2;
-    }
-    .rowcard.incorrect {
-      box-shadow: 0 0 0 2px #d45a28;
-      background: #fff1ee;
-    }
-    .outcome {
-      font-weight: 600;
-      color: #224f6d;
-    }
-    .sel {
-      width: 100%;
-      font-size: 13pt;
-      padding: 10px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      background: #fff;
-      box-sizing: border-box;
-    }
-    .feedback {
-      font-size: 11pt;
-      margin-left: 1em;
-      font-weight: 500;
-      color: #d45a28;
-      display: inline-block;
-    }
-    .rowcard.correct .feedback {
-      color: #3ac183;
-    }
-    .tip {
-      font-size: 11pt;
-      color: #6b7280;
-      margin-top: .6em;
-    }
-    .keybox {
-      background: #fff;
-      border: 1px dashed #d1d5db;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 10px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 14px;
+      font-weight: 500;
+      color: #224f6d;
+      position: relative;
+      perspective: 600px;
+      user-select: none;
+      transition: box-shadow .2s;
     }
-    .keybox ul {
-      margin: .4em 0 0 1.2em;
+    .card.flipped, .card.matched {
+      cursor: default;
     }
-    .checkbtn {
-      margin: 12px 0;
-      padding: 10px 18px;
+    .card .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform .4s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    .card.flipped .card-inner,
+    .card.matched .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-back {
+      background: #224f6d;
+      color: #fff;
+      font-size: 23px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-align: center;
+    }
+    .card-front {
+      background: #fff;
+      color: #224f6d;
+      font-size: 14px;
+      text-align: center;
+      padding: 10px;
+      box-sizing: border-box;
+      word-break: break-word;
+    }
+    .card.matched .card-front {
+      background: #eafaf2;
+      color: #3ac183;
+      font-weight: bold;
+    }
+    .status {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 16px;
+      height: 24px;
+      min-height: 24px;
+    }
+    .restart-btn {
+      display: block;
+      margin: 16px auto 0 auto;
+      padding: 10px 24px;
       font-size: 15px;
       background: #224f6d;
       color: #fff;
@@ -108,283 +114,151 @@
       font-weight: 600;
       transition: background 0.2s;
     }
-    .checkbtn:hover {
+    .restart-btn:hover {
       background: #16334c;
     }
-    @media (max-width: 600px) {
-      .matchwrap { padding: 6px; }
-      .matchtbl th, .matchtbl td { padding: 6px 6px; }
+    @media (max-width: 700px){
+      #game-board { grid-template-columns: repeat(2, 120px); }
     }
   </style>
 </head>
 <body>
-  <div class="matchwrap">
-    <h2><strong>Exposure ↔ Outcome Matching Game</strong></h2>
-    <p>This activity introduces how exposures (grouping/independent variables) can be compared to outcomes (measured results) in public health research.<br>
-    Select the <em>Exposure</em> that best matches each <strong>Outcome</strong>. When you’re done, click "Check Answers" and open the “Answer Key” to self-check.</p>
-    <table class="matchtbl" role="table" aria-label="Exposure Outcome Matching">
-      <thead>
-        <tr>
-          <th scope="col">Outcome (what is measured)</th>
-          <th scope="col">Choose Exposure (grouping/independent variable)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="rowcard" data-answer="Gender">
-          <td class="outcome">Current smoking status</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Current smoking status">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Age group">
-          <td class="outcome">Rate of flu vaccination</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Rate of flu vaccination">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Income level">
-          <td class="outcome">Prevalence of diabetes</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Prevalence of diabetes">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Education level">
-          <td class="outcome">Body mass index (BMI) category</td>
-          <td>
-            <select class="sel" aria-label="Exposure for BMI category">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Insurance status">
-          <td class="outcome">Use of preventive care (e.g., annual checkup)</td>
-          <td>
-            <select class="sel" aria-label="Exposure for preventive care use">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Race/ethnicity">
-          <td class="outcome">Asthma diagnosis</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Asthma diagnosis">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Geographic region">
-          <td class="outcome">Access to mental health services</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Access to mental health services">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Household size">
-          <td class="outcome">Food insecurity</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Food insecurity">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Marital status">
-          <td class="outcome">Self-reported depression</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Self-reported depression">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-        <tr class="rowcard" data-answer="Disability status">
-          <td class="outcome">Difficulty accessing healthcare</td>
-          <td>
-            <select class="sel" aria-label="Exposure for Difficulty accessing healthcare">
-              <option value="">— Select exposure —</option>
-              <option>Gender</option>
-              <option>Age group</option>
-              <option>Income level</option>
-              <option>Education level</option>
-              <option>Insurance status</option>
-              <option>Race/ethnicity</option>
-              <option>Geographic region</option>
-              <option>Household size</option>
-              <option>Marital status</option>
-              <option>Disability status</option>
-            </select>
-            <span class="feedback"></span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <button class="checkbtn" onclick="checkAnswers()">Check Answers</button>
-    <p class="tip"><strong>Tip:</strong> In public health, the <em>exposure</em> is a grouping/independent variable used to compare different populations (e.g., age group, insurance status), and the <em>outcome</em> is the measured result (e.g., vaccination rate, BMI category). Matching exposures and outcomes helps you think about how health data is organized and analyzed.</p>
-    <details style="margin-top:10px;">
-      <summary style="font-weight:700; cursor:pointer;">Answer Key (click to expand)</summary>
-      <div class="keybox">
-        <ul>
-          <li>Current smoking status → <strong>Gender</strong></li>
-          <li>Rate of flu vaccination → <strong>Age group</strong></li>
-          <li>Prevalence of diabetes → <strong>Income level</strong></li>
-          <li>Body mass index (BMI) category → <strong>Education level</strong></li>
-          <li>Use of preventive care → <strong>Insurance status</strong></li>
-          <li>Asthma diagnosis → <strong>Race/ethnicity</strong></li>
-          <li>Access to mental health services → <strong>Geographic region</strong></li>
-          <li>Food insecurity → <strong>Household size</strong></li>
-          <li>Self-reported depression → <strong>Marital status</strong></li>
-          <li>Difficulty accessing healthcare → <strong>Disability status</strong></li>
-        </ul>
-      </div>
-    </details>
-    <div class="keybox" style="margin-top:12px;">
-      <strong>Try your own:</strong> Write a statistical question using a pair from above.<br/>
-      <em>Template:</em> Among [population] in [place] in [year], what is the [percentage/mean] of [outcome], by [exposure]?
-    </div>
+  <h2>Exposure & Outcome Card Matching Game</h2>
+  <div class="instructions">
+    <strong>How to play:</strong> Find all matching pairs! Each pair is an <span style="color:#3ac183;font-weight:600;">Exposure</span> and its <span style="color:#224f6d;font-weight:600;">Outcome</span>.<br>
+    Click two cards. If you match an Exposure with its corresponding Outcome, they stay revealed. Try to match all pairs!
   </div>
+  <div id="game-board"></div>
+  <div class="status" id="status"></div>
+  <button onclick="restartGame()" class="restart-btn">Restart Game</button>
+
   <script>
-    function checkAnswers() {
-      document.querySelectorAll('.rowcard').forEach(function(row) {
-        var sel = row.querySelector('.sel');
-        var feedback = row.querySelector('.feedback');
-        var answer = row.getAttribute('data-answer');
-        if (!sel.value) {
-          row.classList.remove('correct', 'incorrect');
-          feedback.textContent = '';
-        } else if (sel.value === answer) {
-          row.classList.add('correct');
-          row.classList.remove('incorrect');
-          feedback.textContent = 'Correct!';
-        } else {
-          row.classList.remove('correct');
-          row.classList.add('incorrect');
-          feedback.textContent = 'Try again';
-        }
+    // Card Pairs: Exposure ↔ Outcome
+    const pairs = [
+      {exposure: "Gender", outcome: "Current smoking status"},
+      {exposure: "Age group", outcome: "Rate of flu vaccination"},
+      {exposure: "Income level", outcome: "Prevalence of diabetes"},
+      {exposure: "Education level", outcome: "Body mass index (BMI) category"},
+      {exposure: "Insurance status", outcome: "Use of preventive care"},
+      {exposure: "Race/ethnicity", outcome: "Asthma diagnosis"},
+      {exposure: "Geographic region", outcome: "Access to mental health services"},
+      {exposure: "Household size", outcome: "Food insecurity"},
+      {exposure: "Marital status", outcome: "Self-reported depression"},
+      {exposure: "Disability status", outcome: "Difficulty accessing healthcare"},
+    ];
+
+    let cards = [];
+    let firstCard = null;
+    let secondCard = null;
+    let lockBoard = false;
+    let matchesFound = 0;
+
+    function createCards() {
+      // Each pair generates two cards: one Exposure, one Outcome
+      let cardObjs = [];
+      pairs.forEach((pair, idx) => {
+        cardObjs.push({
+          id: 'E' + idx,
+          type: 'Exposure',
+          text: pair.exposure,
+          matchId: 'O' + idx,
+        });
+        cardObjs.push({
+          id: 'O' + idx,
+          type: 'Outcome',
+          text: pair.outcome,
+          matchId: 'E' + idx,
+        });
+      });
+      // Shuffle
+      for (let i = cardObjs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cardObjs[i], cardObjs[j]] = [cardObjs[j], cardObjs[i]];
+      }
+      return cardObjs;
+    }
+
+    function renderBoard() {
+      const board = document.getElementById('game-board');
+      board.innerHTML = '';
+      cards.forEach((card, idx) => {
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'card';
+        cardDiv.setAttribute('data-id', card.id);
+        cardDiv.setAttribute('data-type', card.type);
+        cardDiv.setAttribute('tabindex', 0);
+        cardDiv.innerHTML = `
+          <div class="card-inner">
+            <div class="card-back">?</div>
+            <div class="card-front">${card.text}</div>
+          </div>
+        `;
+        cardDiv.addEventListener('click', () => handleCardClick(cardDiv, card));
+        cardDiv.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') handleCardClick(cardDiv, card);
+        });
+        board.appendChild(cardDiv);
       });
     }
-    document.querySelectorAll('.sel').forEach(function(sel) {
-      sel.addEventListener('change', function() {
-        var row = sel.closest('.rowcard');
-        var feedback = row.querySelector('.feedback');
-        var answer = row.getAttribute('data-answer');
-        if (!sel.value) {
-          row.classList.remove('correct', 'incorrect');
-          feedback.textContent = '';
-        } else if (sel.value === answer) {
-          row.classList.add('correct');
-          row.classList.remove('incorrect');
-          feedback.textContent = 'Correct!';
-        } else {
-          row.classList.remove('correct');
-          row.classList.add('incorrect');
-          feedback.textContent = '';
+
+    function handleCardClick(cardDiv, card) {
+      if (lockBoard) return;
+      if (cardDiv.classList.contains('flipped') || cardDiv.classList.contains('matched')) return;
+      cardDiv.classList.add('flipped');
+      if (!firstCard) {
+        firstCard = {div: cardDiv, data: card};
+        setStatus("Select another card...");
+      } else if (!secondCard) {
+        secondCard = {div: cardDiv, data: card};
+        lockBoard = true;
+        checkForMatch();
+      }
+    }
+
+    function checkForMatch() {
+      if (!firstCard || !secondCard) return;
+      // Match if one's matchId is the other's id
+      if (firstCard.data.matchId === secondCard.data.id) {
+        firstCard.div.classList.add('matched');
+        secondCard.div.classList.add('matched');
+        matchesFound++;
+        setStatus('Matched! ' + matchesFound + ' of 10 pairs.');
+        resetTurn();
+        if (matchesFound === pairs.length) {
+          setStatus('🎉 All pairs matched! You win!');
         }
-      });
-    });
+      } else {
+        setStatus('Not a match. Try again.');
+        setTimeout(() => {
+          firstCard.div.classList.remove('flipped');
+          secondCard.div.classList.remove('flipped');
+          resetTurn();
+        }, 1100);
+      }
+    }
+
+    function resetTurn() {
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+    }
+
+    function setStatus(msg) {
+      document.getElementById('status').textContent = msg;
+    }
+
+    function restartGame() {
+      cards = createCards();
+      matchesFound = 0;
+      firstCard = null;
+      secondCard = null;
+      lockBoard = false;
+      renderBoard();
+      setStatus("Find all matching Exposure ↔ Outcome pairs!");
+    }
+
+    // Start game
+    restartGame();
   </script>
 </body>
 </html>
