@@ -2,51 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exposure & Outcome Card Matching Game</title>
+  <title>Exposure & Outcome Matching Game</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f5f8fa;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e3f0fc 0%, #f6f8fc 100%);
       margin: 0;
-      padding: 24px;
-      color: #224f6d;
+      padding: 0;
+      color: #1c3256;
       font-size: 16px;
     }
+    .container {
+      max-width: 850px;
+      margin: 32px auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(40,70,120,0.08);
+      padding: 32px 24px 24px 24px;
+    }
     h2 {
-      color: #224f6d;
-      margin-bottom: .3em;
       text-align: center;
+      letter-spacing: 1px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-size: 2rem;
+      color: #3b5ea7;
+    }
+    .definitions {
+      background: #f3f7fa;
+      border: 1px solid #cbe5f5;
+      border-radius: 14px;
+      padding: 16px 22px;
+      margin: 0 auto 20px auto;
+      max-width: 700px;
+      font-size: 15.5px;
+      box-shadow: 0 2px 8px rgba(60,105,150,0.04);
+    }
+    .definitions strong {
+      color: #3b5ea7;
+      font-weight: 600;
     }
     .instructions {
       text-align: center;
-      margin-bottom: 16px;
+      margin: 16px auto 16px auto;
+      font-size: 15.5px;
+      color: #29527c;
+      max-width: 650px;
     }
     #game-board {
       display: grid;
-      grid-template-columns: repeat(5, 120px);
-      grid-gap: 18px;
+      grid-template-columns: repeat(5, 130px);
+      grid-gap: 22px;
       justify-content: center;
-      margin: 24px auto;
-      max-width: 680px;
+      margin: 28px auto 0 auto;
+      max-width: 730px;
     }
     .card {
-      width: 110px;
-      height: 80px;
-      background: #e5e7eb;
-      border-radius: 12px;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+      width: 120px;
+      height: 85px;
+      background: #e9eff7;
+      border-radius: 14px;
+      box-shadow: 0 2px 14px rgba(60,105,150,0.09);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
-      font-weight: 500;
-      color: #224f6d;
+      font-size: 15.5px;
+      color: #1c3256;
       position: relative;
       perspective: 600px;
       user-select: none;
-      transition: box-shadow .2s;
+      transition: box-shadow .18s;
+      outline: none;
+      border: none;
     }
     .card.flipped, .card.matched {
       cursor: default;
@@ -67,84 +96,104 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 12px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     .card-back {
-      background: #224f6d;
+      background: #3b5ea7;
       color: #fff;
-      font-size: 23px;
+      font-size: 28px;
       font-weight: bold;
       letter-spacing: 3px;
       text-align: center;
+      box-shadow: 0 2px 8px rgba(60,105,150,0.10);
     }
     .card-front {
       background: #fff;
-      color: #224f6d;
-      font-size: 14px;
+      color: #29527c;
+      font-size: 15px;
       text-align: center;
       padding: 10px;
       box-sizing: border-box;
       word-break: break-word;
+      box-shadow: 0 2px 8px rgba(60,105,150,0.09);
     }
     .card.matched .card-front {
-      background: #eafaf2;
-      color: #3ac183;
+      background: #e4f7e9;
+      color: #2a8a47;
       font-weight: bold;
+      box-shadow: 0 2px 12px rgba(42,138,71,0.07);
     }
     .status {
       text-align: center;
-      margin-top: 8px;
-      font-size: 16px;
-      height: 24px;
-      min-height: 24px;
+      margin-top: 12px;
+      font-size: 17px;
+      height: 30px;
+      min-height: 30px;
+      color: #3b5ea7;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
     .restart-btn {
       display: block;
-      margin: 16px auto 0 auto;
-      padding: 10px 24px;
-      font-size: 15px;
-      background: #224f6d;
+      margin: 20px auto 0 auto;
+      padding: 10px 26px;
+      font-size: 16px;
+      background: #3b5ea7;
       color: #fff;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       font-weight: 600;
-      transition: background 0.2s;
+      letter-spacing: 0.5px;
+      transition: background 0.2s, box-shadow .15s;
+      box-shadow: 0 2px 8px rgba(60,105,150,0.06);
     }
     .restart-btn:hover {
-      background: #16334c;
+      background: #1c3256;
+      box-shadow: 0 2px 14px rgba(60,105,150,0.13);
     }
-    @media (max-width: 700px){
-      #game-board { grid-template-columns: repeat(2, 120px); }
+    @media (max-width: 850px){
+      .container { padding: 12px 2vw 18px 2vw; }
+      #game-board { grid-template-columns: repeat(2, 130px); grid-gap: 18px; }
+    }
+    @media (max-width: 480px){
+      .container { padding: 6px 0 16px 0; }
+      h2 { font-size: 1.3rem; }
+      .definitions, .instructions { font-size: 14px; padding: 8px 8px; }
+      #game-board { grid-template-columns: repeat(1, 130px); grid-gap: 14px; }
     }
   </style>
 </head>
 <body>
-  <h2>Exposure & Outcome Card Matching Game</h2>
-  <div class="instructions">
-    <strong>How to play:</strong> Find all matching pairs! Each pair is an <span style="color:#3ac183;font-weight:600;">Exposure</span> and its <span style="color:#224f6d;font-weight:600;">Outcome</span>.<br>
-    Click two cards. If you match an Exposure with its corresponding Outcome, they stay revealed. Try to match all pairs!
+  <div class="container">
+    <h2>Exposure & Outcome Matching Game</h2>
+    <div class="definitions">
+      <strong>Exposure:</strong> In public health research, an exposure is something we think might influence health outcomes. It is the independent variable or "grouping" factor we use to compare groups of people, such as age, gender, or lifestyle.<br><br>
+      <strong>Outcome:</strong> An outcome is what we measure to see if there is a difference between groups. Outcomes are the results, like whether someone has a disease, their vaccination status, or their mental health.
+    </div>
+    <div class="instructions">
+      <strong>Instructions:</strong> Click two cards to reveal them. Match an <span style="color:#2a8a47;font-weight:600;">Exposure</span> with its correct <span style="color:#29527c;font-weight:600;">Outcome</span>. If the pair is correct, they stay revealed. Try to find all matches!
+    </div>
+    <div id="game-board"></div>
+    <div class="status" id="status"></div>
+    <button onclick="restartGame()" class="restart-btn">Restart Game</button>
   </div>
-  <div id="game-board"></div>
-  <div class="status" id="status"></div>
-  <button onclick="restartGame()" class="restart-btn">Restart Game</button>
-
   <script>
-    // Card Pairs: Exposure ↔ Outcome
+    // Beginner-friendly pairs: Exposure ↔ Outcome
     const pairs = [
-      {exposure: "Gender", outcome: "Current smoking status"},
       {exposure: "Age group", outcome: "Rate of flu vaccination"},
-      {exposure: "Income level", outcome: "Prevalence of diabetes"},
-      {exposure: "Education level", outcome: "Body mass index (BMI) category"},
-      {exposure: "Insurance status", outcome: "Use of preventive care"},
-      {exposure: "Race/ethnicity", outcome: "Asthma diagnosis"},
-      {exposure: "Geographic region", outcome: "Access to mental health services"},
-      {exposure: "Household size", outcome: "Food insecurity"},
-      {exposure: "Marital status", outcome: "Self-reported depression"},
-      {exposure: "Disability status", outcome: "Difficulty accessing healthcare"},
+      {exposure: "Gender", outcome: "Prevalence of heart disease"},
+      {exposure: "Physical activity level", outcome: "Body mass index (BMI)"},
+      {exposure: "Diet type", outcome: "Blood cholesterol level"},
+      {exposure: "Smoking status", outcome: "Risk of lung cancer"},
+      {exposure: "Insurance coverage", outcome: "Use of preventive care"},
+      {exposure: "Living location (urban/rural)", outcome: "Access to healthcare services"},
+      {exposure: "Education level", outcome: "Awareness of healthy eating"},
+      {exposure: "Alcohol consumption", outcome: "Liver health"},
+      {exposure: "Stress level", outcome: "Mental health status"},
     ];
 
     let cards = [];
@@ -222,7 +271,7 @@
         firstCard.div.classList.add('matched');
         secondCard.div.classList.add('matched');
         matchesFound++;
-        setStatus('Matched! ' + matchesFound + ' of 10 pairs.');
+        setStatus('Matched! ' + matchesFound + ' of ' + pairs.length + ' pairs.');
         resetTurn();
         if (matchesFound === pairs.length) {
           setStatus('🎉 All pairs matched! You win!');
