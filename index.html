@@ -171,8 +171,8 @@
   <div class="container">
     <h2>Exposure & Outcome Matching Game</h2>
     <div class="definitions">
-      <strong>Exposure:</strong> In public health research, an exposure is something we think might influence health outcomes. It is the independent variable or "grouping" factor we use to compare groups of people, such as age, gender, or lifestyle.<br><br>
-      <strong>Outcome:</strong> An outcome is what we measure to see if there is a difference between groups. Outcomes are the results, like whether someone has a disease, their vaccination status, or their mental health.
+      <strong>Exposure:</strong> In public health research, an exposure is a factor or characteristic that might influence health. Examples: age, access to healthy food, behaviors, or environment.<br><br>
+      <strong>Outcome:</strong> An outcome is what is measured to see if there is a difference between groups. Examples: rates of disease, health behaviors, or quality of sleep.
     </div>
     <div class="instructions">
       <strong>Instructions:</strong> Click two cards to reveal them. Match an <span style="color:#2a8a47;font-weight:600;">Exposure</span> with its correct <span style="color:#29527c;font-weight:600;">Outcome</span>. If the pair is correct, they stay revealed. Try to find all matches!
@@ -182,18 +182,18 @@
     <button onclick="restartGame()" class="restart-btn">Restart Game</button>
   </div>
   <script>
-    // Beginner-friendly pairs: Exposure ↔ Outcome
+    // Inclusive, non-stereotypical pairs: Exposure ↔ Outcome
     const pairs = [
       {exposure: "Age group", outcome: "Rate of flu vaccination"},
-      {exposure: "Gender", outcome: "Prevalence of heart disease"},
-      {exposure: "Physical activity level", outcome: "Body mass index (BMI)"},
-      {exposure: "Diet type", outcome: "Blood cholesterol level"},
-      {exposure: "Smoking status", outcome: "Risk of lung cancer"},
-      {exposure: "Insurance coverage", outcome: "Use of preventive care"},
-      {exposure: "Living location (urban/rural)", outcome: "Access to healthcare services"},
-      {exposure: "Education level", outcome: "Awareness of healthy eating"},
-      {exposure: "Alcohol consumption", outcome: "Liver health"},
-      {exposure: "Stress level", outcome: "Mental health status"},
+      {exposure: "Physical activity level", outcome: "Obesity rate"},
+      {exposure: "Health insurance status", outcome: "Frequency of annual checkups"},
+      {exposure: "Access to fresh food", outcome: "Prevalence of healthy eating habits"},
+      {exposure: "Time spent outdoors", outcome: "Vitamin D levels"},
+      {exposure: "Participation in health education", outcome: "Knowledge of nutrition labels"},
+      {exposure: "Residential area (urban/suburban/rural)", outcome: "Access to healthcare services"},
+      {exposure: "Screen time", outcome: "Sleep quality"},
+      {exposure: "Smoking status", outcome: "Risk of lung disease"},
+      {exposure: "Water source (tap/bottled)", outcome: "Incidence of dental cavities"}
     ];
 
     let cards = [];
